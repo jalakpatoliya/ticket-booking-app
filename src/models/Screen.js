@@ -17,6 +17,24 @@ const ScreenSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Theatre',
     },
+    seatArrangement: [
+      {
+        rowName: {
+          type: String,
+          required: true,
+        },
+        seats: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
+    bookings: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Booking',
+      },
+    ],
   },
   { timestamps: true }
 );

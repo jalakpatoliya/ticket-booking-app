@@ -14,6 +14,10 @@ const TheatreSchema = new Schema(
         ref: 'Screen',
       },
     ],
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   { timestamps: true }
 );

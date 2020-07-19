@@ -33,8 +33,10 @@ require('./src/lib/mongoose');
  * importing models
  */
 require('./src/models/User');
-require('./src/models/Movie');
+require('./src/models/Seat');
+require('./src/models/Booking');
 require('./src/models/Screen');
+require('./src/models/Movie');
 require('./src/models/Theatre');
 
 http.createServer(app).listen(PORT, console.log(`server started at port:${PORT}`));
