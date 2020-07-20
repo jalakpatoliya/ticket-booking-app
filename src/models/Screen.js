@@ -9,8 +9,12 @@ const ScreenSchema = new Schema(
     },
     movies: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Movie',
+        movie: {
+          type: Schema.Types.ObjectId,
+          ref: 'Movie',
+        },
+        from: Date,
+        to: Date,
       },
     ],
     theatre: {

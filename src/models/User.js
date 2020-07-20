@@ -12,6 +12,29 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  bookings: [
+    {
+      date: Date,
+      theatreId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Theatre',
+      },
+      screenId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Screen',
+      },
+      seatId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Seat',
+      },
+      rows: [
+        {
+          rowId: mongoose.Types.ObjectId,
+          index: [Number],
+        },
+      ],
+    },
+  ],
 });
 
 //This is called a pre-hook, before the user information is saved in the database

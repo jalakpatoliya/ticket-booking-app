@@ -64,8 +64,44 @@ exports.getSeats = async ({ date, screenId }) => {
         screenId,
         { $push: { bookings: bookingData._id } },
         { new: true }
-      );
+      ).populate('screen.bookings');
     }
+
+    return data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+exports.getScreensRunningMovie = async ({ date = new Date(), movieId }) => {
+  try {
+    const data = await Screen.find({
+      'movies.movie': movieId,
+      'movies.from': { $lte: new Date(date) },
+      'movies.to': { $gte: new Date(date) },
+    })
+      .populate('theatre')
+      .select('-seatArrangement -bookings');
+
+    const theatres = data.map((screen) => ({
+      theatreId: screen.theatre._id,
+      name: screen.theatre.name,
+    }));
+
+    return theatres;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+exports.getScreensOfTheatreRunningMovie = async ({ date = new Date(), movieId, theatreId }) => {
+  try {
+    const data = await Screen.find({
+      'movies.movie': movieId,
+      'movies.from': { $lte: new Date(date) },
+      'movies.to': { $gte: new Date(date) },
+      theatre: theatreId,
+    }).select('-seatArrangement -bookings -movies -createdAt -updatedAt');
 
     return data;
   } catch (error) {

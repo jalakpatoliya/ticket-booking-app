@@ -16,7 +16,7 @@ router.post('/create', async (req, res) => {
     const { name, theatreId, seatArrangement } = req.body;
 
     //check if user is owner of theatre
-    const isOwner = await screentCtrl.checkTheatreOwnership({ userId, theatreId });
+    // const isOwner = await screentCtrl.checkTheatreOwnership({ userId, theatreId });
 
     //create screen
     const data = await screentCtrl.createScreen({ name, theatreId, userId, seatArrangement });
@@ -28,7 +28,7 @@ router.post('/create', async (req, res) => {
 });
 
 /**
- * Get seats in Screen on particular date
+ * Get screen with seat arrangement and booked seats for particular date
  */
 router.post('/seats', async (req, res) => {
   try {
@@ -36,6 +36,38 @@ router.post('/seats', async (req, res) => {
 
     //get seats for screen
     const data = await screentCtrl.getSeats({ date, screenId });
+
+    return res.status(200).json({ status: 'success', data });
+  } catch (error) {
+    res.status(500).json({ status: 'fail', error: error.message });
+  }
+});
+
+/**
+ * Get screens showing a movie on given date
+ */
+router.post('/movie', async (req, res) => {
+  try {
+    const { date, movieId } = req.body;
+
+    //get screens running movie on given date
+    const data = await screentCtrl.getScreensRunningMovie({ date, movieId });
+
+    return res.status(200).json({ status: 'success', data });
+  } catch (error) {
+    res.status(500).json({ status: 'fail', error: error.message });
+  }
+});
+
+/**
+ * Get screens of theatre running movie on particular date
+ */
+router.post('/theatre', async (req, res) => {
+  try {
+    const { date, movieId, theatreId } = req.body;
+
+    //get screens of theatre running movie on given date
+    const data = await screentCtrl.getScreensOfTheatreRunningMovie({ date, movieId, theatreId });
 
     return res.status(200).json({ status: 'success', data });
   } catch (error) {
