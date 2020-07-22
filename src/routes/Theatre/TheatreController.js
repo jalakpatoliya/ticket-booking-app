@@ -10,9 +10,19 @@ exports.getTheatreRunningMovie = async ({ date = new Date(), movieId }) => {
       .populate('theatre')
       .select('-seatArrangement -bookings');
 
-    const theatres = data.map((screen) => ({
-      theatreId: screen.theatre._id,
-      name: screen.theatre.name,
+    // filter unique theatres
+    const uniq = {};
+    let theatres = data.filter((theatre) => {
+      if (uniq[theatre.theatre._id]) {
+        return false;
+      }
+      uniq[theatre.theatre._id] = true;
+      return true;
+    });
+
+    theatres = theatres.map((theatre) => ({
+      theatreId: theatre.theatre._id,
+      name: theatre.theatre.name,
     }));
 
     return theatres;
