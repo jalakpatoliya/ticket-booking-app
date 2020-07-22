@@ -35,6 +35,8 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1",
+    "react-seat-picker": "^1.5.3",
+    "react-tooltip": "^4.2.7",
     "volleyball": "^1.5.1"
   },
   "devDependencies": {

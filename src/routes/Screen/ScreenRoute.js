@@ -46,18 +46,18 @@ router.post('/seats', async (req, res) => {
 /**
  * Get screens showing a movie on given date
  */
-router.post('/movie', async (req, res) => {
-  try {
-    const { date, movieId } = req.body;
+// router.post('/movie', async (req, res) => {
+//   try {
+//     const { date, movieId } = req.body;
 
-    //get screens running movie on given date
-    const data = await screentCtrl.getScreensRunningMovie({ date, movieId });
+//     //get screens running movie on given date
+//     const data = await screentCtrl.getScreensRunningMovie({ date, movieId });
 
-    return res.status(200).json({ status: 'success', data });
-  } catch (error) {
-    res.status(500).json({ status: 'fail', error: error.message });
-  }
-});
+//     return res.status(200).json({ status: 'success', data });
+//   } catch (error) {
+//     res.status(500).json({ status: 'fail', error: error.message });
+//   }
+// });
 
 /**
  * Get screens of theatre running movie on particular date

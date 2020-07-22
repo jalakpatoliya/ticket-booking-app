@@ -20,6 +20,7 @@ app.use('/api/', UserRoute);
 //We plugin our jwt strategy as a middleware so only verified users can access this route
 app.use('/api/theatre', passport.authenticate('jwt', { session: false }), TheatreRoute);
 app.use('/api/screen', passport.authenticate('jwt', { session: false }), ScreenRoute);
+// app.use('/api/movie', MovieRoute);
 app.use('/api/movie', passport.authenticate('jwt', { session: false }), MovieRoute);
 app.use('/api/seat', passport.authenticate('jwt', { session: false }), SeatRoute);
 

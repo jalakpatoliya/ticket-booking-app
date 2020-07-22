@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
-function App() {
+import HomePage from './pages/home/home.component';
+import SignUp from './components/sign-up/sign-up.component';
+import SignIn from './components/sign-in/sign-in.component';
+import Movie from './pages/movie/movie.component';
+
+import { CurrentUserProvider } from './contexts/current-user.context';
+import { SelectedDataProvider } from './contexts/selected-data.context';
+
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CurrentUserProvider>
+        <SelectedDataProvider>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/login" component={SignIn} />
+            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/movie" component={Movie} />
+          </Switch>
+        </SelectedDataProvider>
+      </CurrentUserProvider>
     </div>
   );
-}
+};
 
 export default App;

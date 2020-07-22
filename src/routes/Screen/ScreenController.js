@@ -67,32 +67,85 @@ exports.getSeats = async ({ date, screenId }) => {
       ).populate('screen.bookings');
     }
 
-    return data;
+    //converting to required form
+    const convertedData = await convertData({
+      seatArrangement: data.seatArrangement,
+      bookings: data.bookings,
+    });
+
+    const newData = { seatData: convertedData, allData: data };
+
+    return newData;
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-exports.getScreensRunningMovie = async ({ date = new Date(), movieId }) => {
-  try {
-    const data = await Screen.find({
-      'movies.movie': movieId,
-      'movies.from': { $lte: new Date(date) },
-      'movies.to': { $gte: new Date(date) },
-    })
-      .populate('theatre')
-      .select('-seatArrangement -bookings');
+async function convertData({ seatArrangement, bookings }) {
+  const rows = [];
 
-    const theatres = data.map((screen) => ({
-      theatreId: screen.theatre._id,
-      name: screen.theatre.name,
-    }));
-
-    return theatres;
-  } catch (error) {
-    throw new Error(error.message);
+  //if no bookings then make empty hall
+  if (typeof bookings[0] == 'string') {
+    //from seatArrangement
+    seatArrangement.map((row) => {
+      const { seats, rowName, _id } = row;
+      for (let i = 0; i < seats; i++) {
+        const seat = {
+          id: `${_id},${i}`,
+          number: i,
+          tooltip: '$50',
+        };
+        innerRow.push(seat);
+      }
+      rows.push(innerRow);
+    });
   }
-};
+  //if bookings exists
+  bookings[0].seats.rows.map((row) => {
+    const { seats, rowName, _id, booked } = row;
+    const innerRow = [];
+    const bookedArr = [];
+    booked.map(({ index }) => {
+      bookedArr.push(...index);
+    });
+    for (let i = 0; i < seats; i++) {
+      const seat = {
+        id: `${_id},${i}`,
+        number: i,
+        tooltip: '$50',
+      };
+      if (bookedArr.indexOf(i) !== -1) {
+        seat.isReserved = true;
+      }
+      innerRow.push(seat);
+    }
+    rows.push(innerRow);
+  });
+
+  // console.log(rows);
+  return rows;
+}
+
+// exports.getScreensRunningMovie = async ({ date = new Date(), movieId }) => {
+//   try {
+//     const data = await Screen.find({
+//       'movies.movie': movieId,
+//       'movies.from': { $lte: new Date(date) },
+//       'movies.to': { $gte: new Date(date) },
+//     })
+//       .populate('theatre')
+//       .select('-seatArrangement -bookings');
+
+//     const theatres = data.map((screen) => ({
+//       theatreId: screen.theatre._id,
+//       name: screen.theatre.name,
+//     }));
+
+//     return theatres;
+//   } catch (error) {
+//     throw new Error(error.message);
+//   }
+// };
 
 exports.getScreensOfTheatreRunningMovie = async ({ date = new Date(), movieId, theatreId }) => {
   try {
