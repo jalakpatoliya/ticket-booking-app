@@ -1,11 +1,32 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/current-user.context';
-import axios from 'axios';
 import Header from '../header/header.comopnent';
-import Movie from '../movie/movie.component';
 
-const HomePage = ({ history }) => {
+import { makeStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Paper from '@material-ui/core/Paper';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 200,
+    margin: 'auto',
+  },
+}));
+
+function HomePage({ history }) {
+  const classes = useStyles();
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const handleMovieClick = (event, index) => {
+    history.push('/movie');
+  };
+
+  const [elevation, setElevation] = useState(2);
+
   const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
 
   useEffect(() => {
@@ -18,8 +39,6 @@ const HomePage = ({ history }) => {
 
           //set current user in context
           setCurrentUser(user);
-
-          //
         } else {
           history.push('/login');
         }
@@ -30,12 +49,25 @@ const HomePage = ({ history }) => {
     }
   }, []);
 
+  const handleMouseOut = () => {
+    setElevation(2);
+  };
+
+  const handleMouseOver = () => {
+    setElevation(5);
+  };
   return (
-    <div>
+    <div className={classes.root}>
       <Header />
-      <Link to="/movie">Movie</Link>
+      <List component="nav" aria-label="secondary mailbox folder">
+        <Paper onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} elevation={elevation}>
+          <ListItem button onClick={(event) => handleMovieClick(event)}>
+            <ListItemText primary="Movies" />
+          </ListItem>
+        </Paper>
+      </List>
     </div>
   );
-};
+}
 
 export default withRouter(HomePage);

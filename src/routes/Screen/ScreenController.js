@@ -65,7 +65,18 @@ exports.getSeats = async ({ date, screenId }) => {
         { $push: { bookings: bookingData._id } },
         { new: true }
       ).populate('screen.bookings');
+
+      //getting back the same booking back as findByIdAndUpadate and .populate will not work simultaneously
+      data = await Screen.findOne({ _id: screenId }).populate({
+        path: 'bookings',
+        match: { date: new Date(date) },
+        populate: {
+          path: 'seats',
+        },
+      });
     }
+
+    // return data;
 
     //converting to required form
     const convertedData = await convertData({
@@ -99,28 +110,29 @@ async function convertData({ seatArrangement, bookings }) {
       }
       rows.push(innerRow);
     });
-  }
-  //if bookings exists
-  bookings[0].seats.rows.map((row) => {
-    const { seats, rowName, _id, booked } = row;
-    const innerRow = [];
-    const bookedArr = [];
-    booked.map(({ index }) => {
-      bookedArr.push(...index);
-    });
-    for (let i = 0; i < seats; i++) {
-      const seat = {
-        id: `${_id},${rowName},${i}`,
-        number: i,
-        tooltip: '$50',
-      };
-      if (bookedArr.indexOf(i) !== -1) {
-        seat.isReserved = true;
+  } else {
+    //if bookings exists
+    bookings[0].seats.rows.map((row) => {
+      const { seats, rowName, _id, booked } = row;
+      const innerRow = [];
+      const bookedArr = [];
+      booked.map(({ index }) => {
+        bookedArr.push(...index);
+      });
+      for (let i = 0; i < seats; i++) {
+        const seat = {
+          id: `${_id},${rowName},${i}`,
+          number: i,
+          tooltip: '$50',
+        };
+        if (bookedArr.indexOf(i) !== -1) {
+          seat.isReserved = true;
+        }
+        innerRow.push(seat);
       }
-      innerRow.push(seat);
-    }
-    rows.push(innerRow);
-  });
+      rows.push(innerRow);
+    });
+  }
 
   // console.log(rows);
   return rows;
