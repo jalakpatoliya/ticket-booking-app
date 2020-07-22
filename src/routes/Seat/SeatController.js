@@ -3,6 +3,10 @@ const User = require('../../models/User');
 
 exports.bookSeats = async ({ seatId, rows, userId, screenId, theatreId, date }) => {
   try {
+    if (rows.length < 1) {
+      throw new Error('no seats selected!!');
+    }
+
     //updating bookings in screen's seatings
     const updatingArr = await rows.map(async (row) => {
       const { rowId, index } = row;
@@ -20,7 +24,7 @@ exports.bookSeats = async ({ seatId, rows, userId, screenId, theatreId, date }) 
     });
 
     let data = await Promise.all(updatingArr);
-
+    console.log('rows:', rows);
     //adding bookings in user
     data = await User.findByIdAndUpdate(userId, {
       $push: {

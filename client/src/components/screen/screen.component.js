@@ -6,7 +6,7 @@ import { SelectedDataContext } from '../../contexts/selected-data.context';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
-const Screen = ({ history }) => {
+const Screen = ({ history, handleClose }) => {
   const [state, setState] = useState({ loading: false });
   const [selectedData, setSelectedData] = useContext(SelectedDataContext);
   const [rows, setRows] = useState([]);
@@ -24,11 +24,12 @@ const Screen = ({ history }) => {
       setState({ loading: false });
 
       //adding row to bookedseats
-      const [rowId, index] = id.split(',');
+      const [rowId, rowName, index] = id.split(',');
 
       const obj = {
+        rowName,
         rowId,
-        index: [index],
+        index: [JSON.parse(index)],
       };
       setBookedSeats([...bookedSeats, { ...obj }]);
     };
@@ -49,7 +50,7 @@ const Screen = ({ history }) => {
       setState({ loading: false });
 
       //removing row from bookedseats
-      const [rowId, index] = id.split(',');
+      const [rowId, rowName, index] = id.split(',');
 
       setBookedSeats(
         bookedSeats.filter((row) => {
@@ -81,12 +82,19 @@ const Screen = ({ history }) => {
           data: {
             data: {
               seatData,
-              allData: { _id: seatId },
+              allData: { bookings },
             },
           },
         } = await Axios.post(`api/screen/seats`, bodyParameters, {
           headers: { Authorization: `Bearer ${currentUser.token}` },
         });
+        const [
+          {
+            seats: { _id: seatId },
+          },
+        ] = bookings;
+
+        console.log('seatId::::', seatId);
 
         await setSelectedData({
           ...selectedData,
@@ -99,7 +107,7 @@ const Screen = ({ history }) => {
       };
       fetchData();
     } catch (error) {
-      alert(error.message);
+      alert(error);
     }
   }, [selectedData.date]);
 
@@ -111,14 +119,16 @@ const Screen = ({ history }) => {
         screenId: selectedData.screenId,
         seatId: selectedData.seatId,
         rows: bookedSeats,
+        date: selectedData.date,
       };
       await Axios.post(`api/seat/book`, bodyParameters, {
         headers: { Authorization: `Bearer ${currentUser.token}` },
       });
       alert('Booked Successfully');
-      history.push('/');
+      handleClose();
+      // history.push('/');
     } catch (error) {
-      alert(error.message);
+      alert(error);
     }
   };
 

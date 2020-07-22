@@ -68,7 +68,7 @@ export default function WrappedScreen({ open, setOpen }) {
             <ListItemText primary="Default notification ringtone" secondary="Tethys" />
           </ListItem>
         </List> */}
-        <Screen />
+        <Screen handleClose={handleClose} />
       </Dialog>
     </div>
   );

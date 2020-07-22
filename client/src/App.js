@@ -6,6 +6,7 @@ import HomePage from './pages/home/home.component';
 import SignUp from './components/sign-up/sign-up.component';
 import SignIn from './components/sign-in/sign-in.component';
 import Movie from './pages/movie/movie.component';
+import TicketPage from './pages/tickets/ticket.component';
 
 import { CurrentUserProvider } from './contexts/current-user.context';
 import { SelectedDataProvider } from './contexts/selected-data.context';
@@ -20,6 +21,7 @@ const App = () => {
             <Route exact path="/login" component={SignIn} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/movie" component={Movie} />
+            <Route exact path="/ticket" component={TicketPage} />
           </Switch>
         </SelectedDataProvider>
       </CurrentUserProvider>

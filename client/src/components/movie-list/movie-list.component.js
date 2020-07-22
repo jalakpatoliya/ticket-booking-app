@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { SelectedDataContext } from '../../contexts/selected-data.context';
 import SimpleDialogDemo from '../../components/theatre-list/theatre-list.modal.component';
+import MovieCards from './movie-list.cards.components';
 
 const MovieList = () => {
   const [selectedData, setSelectedData] = useContext(SelectedDataContext);
@@ -42,21 +43,9 @@ const MovieList = () => {
 
   return (
     <div>
-      {movieList.map((movie) => {
-        return (
-          <div>
-            <input onChange={handleDateChange} type="date" value={selectedData.date} />
-            <Link
-              onClick={(e) => {
-                handleClick({ movieId: movie._id });
-              }}
-            >
-              <div key={movie._id}>{movie.name}</div>
-            </Link>
-          </div>
-        );
-      })}
+      <input onChange={handleDateChange} type="date" value={selectedData.date} />
 
+      <MovieCards data={movieList} handleClick={handleClick} />
       <SimpleDialogDemo open={theatreModalOpen} setOpen={setTheatreModalOpen} />
     </div>
   );

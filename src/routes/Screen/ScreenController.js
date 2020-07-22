@@ -91,7 +91,7 @@ async function convertData({ seatArrangement, bookings }) {
       const { seats, rowName, _id } = row;
       for (let i = 0; i < seats; i++) {
         const seat = {
-          id: `${_id},${i}`,
+          id: `${_id},${rowName},${i}`,
           number: i,
           tooltip: '$50',
         };
@@ -110,7 +110,7 @@ async function convertData({ seatArrangement, bookings }) {
     });
     for (let i = 0; i < seats; i++) {
       const seat = {
-        id: `${_id},${i}`,
+        id: `${_id},${rowName},${i}`,
         number: i,
         tooltip: '$50',
       };

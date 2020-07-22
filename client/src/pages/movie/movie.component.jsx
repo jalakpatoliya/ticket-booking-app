@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import Header from '../header/header.comopnent';
 import MovieList from '../../components/movie-list/movie-list.component';
 import { CurrentUserContext } from '../../contexts/current-user.context';
 
@@ -29,6 +30,7 @@ const Movie = ({ history }) => {
 
   return (
     <div>
+      <Header />
       <MovieList />
     </div>
   );

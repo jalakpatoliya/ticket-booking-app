@@ -29,7 +29,10 @@ const UserSchema = new Schema({
       },
       rows: [
         {
-          rowId: mongoose.Types.ObjectId,
+          rowName: String,
+          rowId: {
+            type: mongoose.Types.ObjectId,
+          },
           index: [Number],
         },
       ],
