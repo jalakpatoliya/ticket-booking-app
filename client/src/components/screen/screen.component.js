@@ -73,15 +73,9 @@ const Screen = ({ history }) => {
       const fetchData = async () => {
         const currentUser = JSON.parse(localStorage.getItem('user'));
 
-        // const bodyParameters = {
-        //   date: selectedData.date,
-        //   movieId: selectedData.movieId,
-        //   theatreId: selectedData.theatreId,
-        // };
         const bodyParameters = {
           date: selectedData.date,
-          //   screenId: selectedData.screenId,
-          screenId: '5f151d414daf9a148a2574bb',
+          screenId: selectedData.screenId,
         };
         const {
           data: {
@@ -97,9 +91,9 @@ const Screen = ({ history }) => {
         await setSelectedData({
           ...selectedData,
           seatId: seatId,
-          theatreId: '5f151cf54daf9a148a2574ba',
-          movieId: '5f151dfe4daf9a148a2574bf',
-          screenId: '5f151d414daf9a148a2574bb',
+          theatreId: selectedData.theatreId,
+          movieId: selectedData.movieId,
+          screenId: selectedData.screenId,
         });
         await setRows([...seatData]);
       };
