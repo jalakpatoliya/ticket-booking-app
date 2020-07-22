@@ -14,6 +14,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import { blue } from '@material-ui/core/colors';
 import { SelectedDataContext } from '../../contexts/selected-data.context';
 import Screen from '../screen/screen.component';
+import WrappedScreen from '../screen/wrapped.screen.component';
 
 const useStyles = makeStyles({
   avatar: {
@@ -24,13 +25,24 @@ const useStyles = makeStyles({
 
 function SimpleDialog(props) {
   const classes = useStyles();
-  const { onClose, open, screenList, setScreenList } = props;
+  const {
+    onClose,
+    open,
+    screenList,
+    setScreenList,
+    selectedData,
+    setSelectedData,
+    setScreenOpen,
+  } = props;
 
   const handleClose = () => {
     onClose();
   };
 
   const handleListItemClick = (value) => {
+    console.log(value);
+    setSelectedData({ ...selectedData, screenId: value._id });
+    setScreenOpen(true);
     onClose(value);
   };
 
@@ -60,7 +72,7 @@ SimpleDialog.propTypes = {
 
 export default function SimpleDialogDemo(props) {
   const { open, setOpen } = props;
-  //   const [open, setOpen] = React.useState(false);
+  const [screenOpen, setScreenOpen] = React.useState(false);
   const [selectedData, setSelectedData] = useContext(SelectedDataContext);
   const [screenList, setScreenList] = useState([]);
 
@@ -95,12 +107,16 @@ export default function SimpleDialogDemo(props) {
     <div>
       <br />
       <SimpleDialog
+        selectedData={selectedData}
+        setSelectedData={setSelectedData}
         screenList={screenList}
         setScreenList={setScreenList}
         open={open}
         onClose={handleClose}
+        setScreenOpen={setScreenOpen}
       />
-      <Screen />
+      {/* <Screen /> */}
+      <WrappedScreen open={screenOpen} setOpen={setScreenOpen} />
     </div>
   );
 }

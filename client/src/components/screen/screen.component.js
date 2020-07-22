@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import SeatPicker from 'react-seat-picker';
 import { SelectedDataContext } from '../../contexts/selected-data.context';
 import { withRouter } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 
 const Screen = ({ history }) => {
   const [state, setState] = useState({ loading: false });
@@ -145,7 +146,11 @@ const Screen = ({ history }) => {
           />
         ) : null}
       </div>
-      <button onClick={handleBook}>Book</button>
+      <br />
+      <br />
+      <Button onClick={handleBook} variant="contained" color="primary">
+        Book
+      </Button>
     </div>
   );
 };
