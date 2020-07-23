@@ -94,8 +94,6 @@ const Screen = ({ history, handleClose }) => {
           },
         ] = bookings;
 
-        console.log('seatId::::', seatId);
-
         await setSelectedData({
           ...selectedData,
           seatId: seatId,

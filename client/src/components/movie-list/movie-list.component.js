@@ -24,7 +24,6 @@ const MovieList = () => {
         });
 
         setmovieList([...data]);
-        console.log('called');
       };
       fetchData();
     } catch (error) {

@@ -22,9 +22,8 @@ export default function TicketWrapper({ tickets }) {
                 subheader={`date: ${ticket.date}`}
               />
               <CardContent>
-                <Typography variant="h6">screen Name: {ticket.screenName}</Typography>
-                <Typography variant="h6">row Name.: {ticket.rowName}</Typography>
-                <Typography variant="h6">seat no.: {ticket.seatNumber}</Typography>
+                <Typography variant="h6">Screen : {ticket.screenName}</Typography>
+                <Typography variant="h6">Seat No.: {ticket.seatNumber}</Typography>
               </CardContent>
             </Card>
           </Grid>

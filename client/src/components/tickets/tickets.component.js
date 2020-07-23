@@ -15,7 +15,6 @@ export const Tickets = () => {
           headers: { Authorization: `Bearer ${currentUser.token}` },
         });
 
-        console.log(data);
         setTickets(data);
       };
       fetchData();

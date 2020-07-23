@@ -24,19 +24,22 @@ exports.bookSeats = async ({ seatId, rows, userId, screenId, theatreId, date }) 
     });
 
     let data = await Promise.all(updatingArr);
-    console.log('rows:', rows);
     //adding bookings in user
-    data = await User.findByIdAndUpdate(userId, {
-      $push: {
-        bookings: {
-          date,
-          screenId,
-          theatreId,
-          seatId,
-          rows,
+    data = await User.findByIdAndUpdate(
+      userId,
+      {
+        $push: {
+          bookings: {
+            date,
+            screenId,
+            theatreId,
+            seatId,
+            rows,
+          },
         },
       },
-    });
+      { new: true }
+    );
 
     return data;
   } catch (error) {

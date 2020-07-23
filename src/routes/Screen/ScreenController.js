@@ -104,7 +104,7 @@ async function convertData({ seatArrangement, bookings }) {
         const seat = {
           id: `${_id},${rowName},${i}`,
           number: i,
-          tooltip: '$50',
+          tooltip: '₹200',
         };
         innerRow.push(seat);
       }
@@ -123,7 +123,7 @@ async function convertData({ seatArrangement, bookings }) {
         const seat = {
           id: `${_id},${rowName},${i}`,
           number: i,
-          tooltip: '$50',
+          tooltip: '₹200',
         };
         if (bookedArr.indexOf(i) !== -1) {
           seat.isReserved = true;
@@ -134,7 +134,6 @@ async function convertData({ seatArrangement, bookings }) {
     });
   }
 
-  // console.log(rows);
   return rows;
 }
 

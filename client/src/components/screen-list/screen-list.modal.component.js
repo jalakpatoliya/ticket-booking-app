@@ -40,7 +40,6 @@ function SimpleDialog(props) {
   };
 
   const handleListItemClick = (value) => {
-    console.log(value);
     setSelectedData({ ...selectedData, screenId: value._id });
     setScreenOpen(true);
     onClose(value);

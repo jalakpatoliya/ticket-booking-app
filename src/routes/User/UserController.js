@@ -15,13 +15,17 @@ exports.getBookings = async ({ user }) => {
         date,
         rows,
       } = booking;
-      const rowName = rows[0].rowName;
-      const seatNumber = rows[0].index.toString();
+
+      let seatNumber = ``;
+      rows.map((row) => {
+        seatNumber += `${row.rowName}${row.index.toString()},`;
+      });
+      seatNumber = seatNumber.substring(0, seatNumber.length - 1);
+
       return (ticket = {
         date,
         theatreName,
         screenName,
-        rowName,
         seatNumber,
       });
     });

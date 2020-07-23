@@ -76,7 +76,6 @@ passport.use(
     },
     async (token, done) => {
       try {
-        console.log(token.user);
         //Pass the user details to the next middleware
         return done(null, token.user);
       } catch (error) {
